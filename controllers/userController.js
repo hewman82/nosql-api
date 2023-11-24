@@ -1,3 +1,5 @@
+const User = require("../models/User")
+
 // Get route for all users
 // '/api/users'
 // app.GET('/')
