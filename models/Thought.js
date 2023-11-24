@@ -27,13 +27,14 @@ const thoughtSchema = new Schema(
   }
 );
 
+// Getter function to format date
 function formatDate(createdAt) {
     const formatMe = new Date(createdAt);
     const local = formatMe.toLocaleDateString();
     return local;
 };
 
-// Create a virtual property `reactionCount` that gets the amount of reactions per thought
+// Virtual property `reactionCount` that gets the amount of reactions per thought
 thoughtSchema.virtual('reactionCount').
   get(function () {
   return this.reactions.length;

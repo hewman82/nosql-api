@@ -25,6 +25,7 @@ const reactionSchema = new Schema(
   }
 );
 
+// Getter function to format date
 function formatDate(createdAt) {
     const formatMe = new Date(createdAt);
     const local = formatMe.toLocaleDateString();
