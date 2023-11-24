@@ -1,37 +1,107 @@
-const User = require("../models/User")
+const { User } = require("../models/User");
 
-// Get route for all users
-// '/api/users'
-// app.GET('/')
+module.exports = {
 
-// Post route to add user
-// '/api/users'
-// app.POST('/')
+  // Get route for all users
+  // '/api/users'
+  async getUsers(req, res) {
+    try {
+      const users = await User.find();
+      res.json(users);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 
-// Get route for single user
-// '/api/users/:id'
-// app.GET(':id')
+  // Post route to add user
+  // '/api/users'
+  async createUser(req, res) {
+    try {
+      const user = await User.create(req.body);
+      res.json(user);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  },
 
-// Put route to update user
-// '/api/users/:id'
-// app.PUT(':id')
+  // Get route for single user
+  // '/api/users/:userId'
+  async getSingleUser(req, res) {
+    try {
+      const user = await User.findOne({ _id: req.params.userId })
+        .select('-__v');
 
-// Delete route to delete user
-// '/api/users/:id'
-// app.DELETE('/:id')
+      if (!user) {
+        return res.status(404).json({ message: 'No user with that ID' });
+      }
 
-// Get route to get list of user's friends
-// '/api/users/:id/friends'
-// app.GET('/:id/friends')
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 
-// Get route to get one of user's friends
-// '/api/users/:id/friends/:id'
-// app.GET('/:id/friends/:id')
+  // Put route to update user
+  // '/api/users/:userId'
+  async updateUser(req, res) {
+    try {
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $set: req.body }, 
+        { runValidators: true, new: true }
+      );
 
-// Post route to add a user to friend list
-// '/api/users/:id/friends'
-// app.POST('/:id/friends')
+      if (!user) {
+        return res.status(404).json({ message: 'No user with that ID' });
+      }
 
-// Delete route to remove a user from friend list
-// '/api/users/:id/friends/:id'
-// app.DELETE('/:id/friends/:id')
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // Delete route to delete user
+  // '/api/users/:userId'
+  async deleteUser(req, res) {
+    try {
+      const user = await User.findOneAndDelete({ _id: req.params.userId })
+        .select('-__v');
+
+      if (!user) {
+        return res.status(404).json({ message: 'No user with that ID' });
+      }
+
+      await Thought.deleteMany({ _id: { $in: user.thoughts } });
+      await Reaction.deleteMany({ _id: { $in: thought.reactions }});
+      res.json({ message: 'User and thoughts deleted!' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // Post route to add a user to friend list
+  // '/api/users/:userId/friends/:friendId'
+  async addFriend(req, res) {
+    try {
+      const user = await User.findOne({ _id: req.params.userId });
+      user.friends.push(req.params.friendId);
+      res.json({ message: 'Friend added :)' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  // Delete route to remove a user from friend list
+  // '/api/users/:userId/friends/:friendId'
+  async removeFriend(req, res) {
+    try {
+      const user = await User.findOne({ _id: req.params.userId });
+      user.friends.splice(req.params.friendId);
+      res.json({ message: 'Friend removed :(' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+}

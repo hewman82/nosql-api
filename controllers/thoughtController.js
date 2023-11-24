@@ -1,4 +1,5 @@
 const { Thought, Reaction } = require('../models');
+const User = require('../models/User');
 
 module.exports = {
 
@@ -17,7 +18,9 @@ module.exports = {
   // '/api/thoughts'
   async createThought(req, res) {
     try {
+      const user = await User.findOne({ _id: req.params.userId });
       const thought = await Thought.create(req.body);
+      user.thought.push(thought._id);
       res.json(thought);
     } catch (err) {
       return res.status(500).json(err);
@@ -97,7 +100,7 @@ async updateThought(req, res) {
     try {
       const thought = await Thought.findOne({ _id: req.params.thoughtId });
       const reaction = await Reaction.create(req.body);
-      thought.reactions.push(reaction);
+      thought.reactions.push(reaction._id);
       res.json(reaction);
     } catch (err) {
       res.status(500).json(err);
