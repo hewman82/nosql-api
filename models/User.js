@@ -42,6 +42,8 @@ userSchema.virtual('friendCount').
   return this.friends.length;
 });
 
+userSchema.plugin(uniqueValidator);
+
 const User = model('user', userSchema);
 
 module.exports = User;
