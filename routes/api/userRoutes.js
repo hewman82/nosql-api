@@ -1,35 +1,33 @@
-// Get route for all users
-// '/api/users'
-// app.GET('/')
+const router = require('express').Router();
+const {
+  getUsers,
+  getSingleUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  getFriends,
+  getSingleFriend,
+  addFriend,
+  removeFriend
+} = require('../../controllers/userController.js');
 
-// Post route to add user
-// '/api/users'
-// app.POST('/')
+// /api/users
+router.route('/').get(getUsers).post(createUser);
 
-// Get route for single user
-// '/api/users/:id'
-// app.GET(':id')
+// /api/users/:userId
+router
+  .route('/:userId')
+  .get(getSingleUser)
+  .put(updateUser)
+  .delete(deleteUser);
 
-// Put route to update user
-// '/api/users/:id'
-// app.PUT(':id')
+// /api/users/:userId/friends
+router.route('/:userId/friends').get(getFriends).post(addFriend);
 
-// Delete route to delete user
-// '/api/users/:id'
-// app.DELETE('/:id')
+// /api/users/:userId/friends/:friendId
+router
+  .route('/:userId/friends/:friendId')
+  .get(getSingleFriend)
+  .delete(removeFriend);
 
-// Get route to get list of user's friends
-// '/api/users/:id/friends'
-// app.GET('/:id/friends')
-
-// Get route to get one of user's friends
-// '/api/users/:id/friends/:id'
-// app.GET('/:id/friends/:id')
-
-// Post route to add a user to friend list
-// '/api/users/:id/friends'
-// app.POST('/:id/friends')
-
-// Delete route to remove a user from friend list
-// '/api/users/:id/friends/:id'
-// app.DELETE('/:id/friends/:id')
+module.exports = router;

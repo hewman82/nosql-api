@@ -1,35 +1,33 @@
-// Get route for all thoughts
-// '/api/thoughts'
-// app.GET('/')
+const router = require('express').Router();
+const {
+  getThoughts,
+  getSingleThought,
+  postThought,
+  updateThought,
+  deleteThought,
+  getReactions,
+  getSingleReaction,
+  postReaction,
+  deleteReaction
+} = require('../../controllers/thoughtController.js');
 
-// Post route to add a thought
-// '/api/thoughts'
-// app.POST('/')
+// /api/thoughts
+router.route('/').get(getThoughts).post(postThought);
 
-// Get route for single thought
-// '/api/thoughts/:id'
-// app.GET('/:id')
+// /api/thoughts/:thoughtId
+router
+  .route('/:thoughtId')
+  .get(getSingleThought)
+  .put(updateThought)
+  .delete(deleteThought);
 
-// Put route to update single thought
-// '/api/thoughts/:id'
-// app.PUT('/:id')
+// /api/thoughts/:thoughtId/reactions
+router.route('/:thoughtId/reactions').get(getReactions).post(postReaction);
 
-// Delete route to delete single thought
-// '/api/thoughts/:id'
-// app.DELETE('/:id')
+// /api/thoughts/:thoughtId/reactions/:reactionId
+router
+  .route('/:thoughtId/reactions/:reactionId')
+  .get(getSingleReaction)
+  .delete(deleteReaction);
 
-// Get route to see all reactions to a thought
-// '/api/thoughts/:id/reactions'
-// app.GET('/:id/reactions')
-
-// Post route to add a reaction to a thought
-// '/api/thoughts/:id/reactions'
-// app.POST('/:id/reactions/')
-
-// Get route to see specific reaction to a thought
-// '/api/thoughts/:id/reactions/:id'
-// app.GET('/:id/reactions/:id')
-
-// Delete route to remove a reaction from a thought
-// '/api/thoughts/:id/reactions/:id'
-// app.DELETE('/:id/reactions/:id')
+module.exports = router;
