@@ -8,7 +8,6 @@
   - [Installation](#installation)
   - [Usage](#usage)
   - [Contributing](#contributing)
-  - [Tests](#tests)
   - [License](#license)
   - [Questions](#questions)
 
@@ -23,6 +22,7 @@
   ## Usage
   
   Start the application with npm start in the terminal, then use insomnia to interact with the database.  
+  [Demo Video](https://drive.google.com/file/d/1rDP60ytpTVyn6wpmXH8Hx1SUtVqjbTUS/view)
   
   ## Contributing
   If you have any suggestions on how to improve the application, you can open an issue on the github page with the tag 'suggestion' or fork the project, create feature branch, commit your changes, push to your branch, and open a pull request.
