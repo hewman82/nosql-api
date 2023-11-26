@@ -89,7 +89,7 @@ module.exports = {
         { $addToSet: { friends: req.params.friendId } },
         { runValidators: true, new: true }
       );
-      res.json({ message: 'Friend added :)' });
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -103,7 +103,7 @@ module.exports = {
         { _id: req.params.userId },
         { $pull: { friends: req.params.friendId } }
       );
-      res.json({ message: 'Friend removed :(' });
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }
